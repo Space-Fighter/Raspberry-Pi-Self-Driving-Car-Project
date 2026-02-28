@@ -1,0 +1,33 @@
+import pynput
+from pynput.keyboard import Key, Listener
+import pandas as pd
+import cv2
+# import mov
+import RPi.GPIO as gpio
+
+
+keys = {
+    Key.up: False,
+    Key.down: False,
+    Key.left: False,
+    Key.right: False
+}
+
+def on_press(key):
+    if key in keys:
+        keys[key] = True
+
+def on_release(key):
+    if key in keys:
+        keys[key] = False
+
+if keys[Key.up] and keys[Key.right]:
+    print('Might have worked well')
+elif keys[Key.left]:
+    print('Might have worked')
+
+with Listener(on_press=on_press, on_release=on_release) as listener:
+	with Listener(on_press=on_press, on_release=on_release) as listener:
+    listener.join()
+
+	listener.join()

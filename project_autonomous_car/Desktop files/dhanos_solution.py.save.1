@@ -1,0 +1,36 @@
+import pynput
+from pynput.keyboard import Key, Listener
+import pandas as pd
+import cv2
+# import mov
+import RPi.GPIO as gpio
+
+
+keys = {
+    Key.up: False,
+    Key.down: False,
+    Key.left: False,
+    Key.right: False
+}
+
+def on_press(key):
+    if key in keys:
+        keys[key] = True
+
+def on_release(key):
+    if key in keys:
+        keys[key] = False
+
+    if keys[Key.up] and keys[Key.right]:
+        print('Might have worked well')
+    elif keys[Key.left]:
+        print('Might have worked')
+ File "dhanos_solution.py", line 31, in <module>
+    Thread(target=this_listener, daemon=True).start()
+NameError: name 'this_listener' is not defined
+^[[D^[[Api@raspberrypi:~/Desktop $ 
+
+from threading import Thread
+
+Thread(target=Listener, daemon=True).start()
+

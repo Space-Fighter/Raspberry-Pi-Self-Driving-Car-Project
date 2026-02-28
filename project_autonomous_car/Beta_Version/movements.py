@@ -1,0 +1,71 @@
+import RPi.GPIO as gpio
+import time
+import tkinter as tk
+import sys
+
+def init():
+    # To initialize pins
+    gpio.setmode(gpio.BCM)
+    gpio.setup(16, gpio.OUT)
+    gpio.setup(23, gpio.OUT)
+    gpio.setup(24, gpio.OUT)
+    gpio.setup(25, gpio.OUT)
+
+def forward():
+    # 4 wheel drive(forward)
+    gpio.output(16, True)
+    gpio.output(23, True)
+    gpio.output(24, False)
+    gpio.output(25, False)
+    time.sleep(1)
+    gpio.cleanup()
+
+def reverse():
+    # 4 wheel reversed (reverse)
+    gpio.output(16, False)
+    gpio.output(23, False)
+    gpio.output(24, True)
+    gpio.output(25, True)
+    time.sleep(3)
+    gpio.cleanup()
+
+def right():
+    # Both right wheels forward
+    gpio.output(16, True)
+    gpio.output(23, True)
+    gpio.output(24, False)
+    gpio.output(25, True)
+    time.sleep(1)
+    gpio.cleanup()
+    
+def left():
+    # both left wheels forward
+    gpio.output(16, True)
+    gpio.output(23, True)
+    gpio.output(24, True)
+    gpio.output(25, False)
+    time.sleep(1)
+    gpio.cleanup()
+times = 0
+#Uncomment the following below to check if gpio pins are working and connections are okay.
+def key_input(event):
+    init()
+    print('Key:', event.char)
+    key_press = event.char
+    sleep_time = 0.030
+
+    if key_press.lower() == 'w':
+        forward()
+    elif key_press.lower() == 's':
+        reverse()
+    elif key_press.lower() == 'a':
+        left()
+    elif key_press.lower() == 'd':
+        right()
+#try:
+#    root = tk.Tk()
+#    root.bind('<KeyPress>', key_input)
+#    root.mainloop()
+#except:
+#    gpio.cleanup
+

@@ -1,0 +1,48 @@
+import movements
+from keras.models import load_model
+import cv2
+import numpy as np
+import movements as mov
+def img_preprocess(img):
+    img = img[60:135,:]
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2YUV)
+    img = cv2.GaussianBlur(img,  (3, 3), 0)
+    img = cv2.resize(img, (200, 66))
+    img = img/255
+    return img
+
+def capture_image():
+    cap = cv2.VideoCapture(0)
+    ret, frame = cap.read()
+    frame = np.asarray(frame)
+    print(frame.shape)
+    frame = img_preprocess(frame)
+    frame = np.array([frame])
+    print('Frame shape: ' + str(frame.shape))
+    cap.release()
+    return frame
+
+def steer(steering_angle):
+    angle = int(steering_angle)
+    if angle in [,0,-1,-2,-3,-4,-5]:
+        mov.init()
+        mov.forward()
+    elif steering_angle not in [5,4,3,2,1,0,-1,-2,-3,-4,-5]:
+        if steering_angle > 0:
+            mov.init()
+            mov.right()
+            mov.init()
+            mov.forward()
+        else:
+            mov.init()
+            mov.left()
+            mov.init()
+            mov.forward()
+    return
+model = load_model('model3.h5')
+print('Sucessfully loaded model sir, please don\'t worry the above lines are not errors, they are warnings')
+while True:
+    frame = capture_image()
+    steering_angle = float(model.predict(frame))
+    print('Steering_angle:'+ str(int(steering_angle)))
+    steer(steering_angle)
